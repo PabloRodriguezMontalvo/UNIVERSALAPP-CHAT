@@ -12,16 +12,17 @@ using Microsoft.AspNet.SignalR.Client.Hubs;
 
 namespace ChatClientSignal.Servicios
 {
-    public class ServicoChatImpl:IChatService
+    public class ServicioChatImpl:IChatService
     {
         private HubConnection _conexion;
         private IHubProxy _proxy;
 
-        public ServicoChatImpl()
+        public ServicioChatImpl()
         {
             _conexion = new HubConnection(Cadenas.UrlChat);
             _proxy = _conexion.CreateHubProxy("ChatHub");
 
+            Init();
 
 
         }
@@ -53,12 +54,29 @@ namespace ChatClientSignal.Servicios
 
             _proxy.On("onNewUserConnected", (String id,String nombre) =>
             {
-                
-
-
-
+                var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
+                viewModel.Usuarios.Add(new Usuario(){Id=id,Nombre = nombre});
             });
 
+            _proxy.On("mensaje", (String usuario, String mensaje) =>
+            {
+                var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
+                viewModel.Mensajes.Add(new Mensaje() { Usuario = usuario,Contenido = mensaje});
+            });
+
+            _proxy.On("usuarioDesconectado", (String id, String nombre) =>
+            {
+                var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
+
+                var u = viewModel.Usuarios.FirstOrDefault(o => o.Id == id);
+                if (u != null)
+                {
+                    viewModel.Usuarios.Remove(u);
+                    viewModel.Mensajes.Add(new Mensaje() {Usuario = nombre, 
+                        Contenido = "Se ha desconectado"});
+                }
+
+            });
             await _conexion.Start();
         }
 

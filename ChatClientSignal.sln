@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClientSignal.Windows", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChatClientSignal.WindowsPhone", "ChatClientSignal\ChatClientSignal.WindowsPhone\ChatClientSignal.WindowsPhone.csproj", "{6F744918-0D74-4309-8B02-46387B6DD4C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModeloChatSignalPortable", "..\..\..\..\Source\Repos\signalr-chat\ModeloChatSignalPortable\ModeloChatSignalPortable.csproj", "{357B74F2-8E8C-4371-A1C6-F680F35128F8}"
-EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ChatClientSignal\ChatClientSignal.Shared\ChatClientSignal.Shared.projitems*{c52f68e8-aaf4-48d1-a937-e5629495ad19}*SharedItemsImports = 13
@@ -74,16 +72,6 @@ Global
 		{6F744918-0D74-4309-8B02-46387B6DD4C4}.Release|x86.ActiveCfg = Release|x86
 		{6F744918-0D74-4309-8B02-46387B6DD4C4}.Release|x86.Build.0 = Release|x86
 		{6F744918-0D74-4309-8B02-46387B6DD4C4}.Release|x86.Deploy.0 = Release|x86
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Debug|ARM.ActiveCfg = Debug|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Release|ARM.ActiveCfg = Release|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Release|x64.ActiveCfg = Release|Any CPU
-		{357B74F2-8E8C-4371-A1C6-F680F35128F8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

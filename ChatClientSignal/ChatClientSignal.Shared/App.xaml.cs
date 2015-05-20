@@ -15,8 +15,11 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
-
+using ChatClientSignal.Servicios;
 // The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
+using ChatClientSignal.Locator;
+using ChatClientSignal.Servicios;
+using ChatClientSignal.ViewModel;
 
 namespace ChatClientSignal
 {
@@ -50,7 +53,7 @@ namespace ChatClientSignal
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
             {
-                this.DebugSettings.EnableFrameRateCounter = true;
+                this.DebugSettings.EnableFrameRateCounter = false;
             }
 #endif
 
@@ -95,6 +98,16 @@ namespace ChatClientSignal
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
+
+
+
+
+
+                ServiceLocator.Register<IChatService>(()=>new ServicioChatImpl());
+                ServiceLocator.Register<InicioViewModel>();
+                ServiceLocator.Register<ConversacionesViewModel>();
+
+
                 if (!rootFrame.Navigate(typeof(Inicio), e.Arguments))
                 {
                     throw new Exception("Failed to create initial page");

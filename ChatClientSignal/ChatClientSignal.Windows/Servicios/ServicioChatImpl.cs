@@ -78,6 +78,7 @@ namespace ChatClientSignal.Servicios
 
             });
             await _conexion.Start();
+            var a = "";
         }
 
         public void Conectar(string nombre)

@@ -13,6 +13,11 @@ namespace ChatClientSignal.ViewModel
        public Mensaje Mensaje { get; set; }
        public Usuario Usuario { get; set; }
 
+       public ConversacionesViewModel()
+       {
+           Mensajes=new ObservableCollection<Mensaje>();
+           Usuarios=new ObservableCollection<Usuario>();
+       }
 
        public void EnviarMensaje()
        {

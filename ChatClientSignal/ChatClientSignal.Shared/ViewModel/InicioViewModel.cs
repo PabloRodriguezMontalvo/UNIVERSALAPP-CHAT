@@ -8,11 +8,17 @@ namespace ChatClientSignal.ViewModel
 {
    public class InicioViewModel:BaseViewModel
     {
-       public Usuario MiUsuario { get; set; }
+       public String MiUsuario { get; set; }
+
+       public InicioViewModel()
+       {
+           MiUsuario = "Como te llamas?";
+       }
+
 
        public void Conectar()
        {
-           chatService.Conectar(MiUsuario.Nombre);
+           chatService.Conectar(MiUsuario);
        }
 
 

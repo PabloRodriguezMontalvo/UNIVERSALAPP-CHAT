@@ -14,6 +14,8 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
+using ChatClientSignal.Locator;
+using ChatClientSignal.ViewModel;
 
 namespace ChatClientSignal
 {
@@ -22,9 +24,20 @@ namespace ChatClientSignal
     /// </summary>
     public sealed partial class MainPage : Page
     {
+        private ConversacionesViewModel viewModel;
+
         public MainPage()
         {
             this.InitializeComponent();
+            viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
+           
+            DataContext = viewModel;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            viewModel.EnviarMensaje();
+           
         }
     }
 }

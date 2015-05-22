@@ -8,8 +8,37 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-    	<ListView HorizontalAlignment="Left" Height="100" Margin="616,231,0,0" VerticalAlignment="Top" Width="100"/>
-    	<Button Content="Button" HorizontalAlignment="Left" Margin="163,239,0,0" VerticalAlignment="Top" Height="172" Width="668"/>
-
+    	<Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <ListView Grid.Column="0" Grid.Row="0" ItemsSource="{Binding Usuarios}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Nombre}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+             </ListView.ItemTemplate>
+          
+        </ListView>
+        <ListView Grid.Column="1" Grid.Row="0" ItemsSource="{Binding Mensajes}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel>
+                        <TextBlock Text="{Binding Contenido}"></TextBlock>
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+        <StackPanel Grid.ColumnSpan="2" Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+            <TextBox MinWidth="800" Text="{Binding Mensaje, Mode=TwoWay}"></TextBox>
+            <Button Content="Enviar" Click="Button_Click"></Button>
+        </StackPanel>
+        
     </Grid>
 </Page>

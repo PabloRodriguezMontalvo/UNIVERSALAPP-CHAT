@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.Foundation;
 using ChatClientSignal.Locator;
 using ChatClientSignal.Model;
 using ChatClientSignal.Utilidades;
@@ -33,18 +35,28 @@ namespace ChatClientSignal.Servicios
             _proxy.On("onConnected", (String id, String nombre, List<Usuario> Usuarios, List<Mensaje> Mensajes) =>
             {
 
-                var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
-                viewModel.Usuario=new Usuario(){Id = id,Nombre = nombre};
+            
 
-                foreach (var usuario in Usuarios)
-                {
-                    viewModel.Usuarios.Add(usuario);
-                }
 
-                foreach (var mensaje in Mensajes)
+                ExecuteOnUIThread(() =>
                 {
-                    viewModel.Mensajes.Add(mensaje);
-                }
+                    
+                    var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
+                    viewModel.Usuario = new Usuario() {Id = id, Nombre = nombre};
+                    foreach (var usuario in Usuarios)
+                    {
+                        viewModel.Usuarios.Add(usuario);
+                    }
+
+                    foreach (var mensaje in Mensajes)
+                    {
+                        viewModel.Mensajes.Add(mensaje);
+                    }
+
+                });
+
+
+
 
 
 
@@ -52,33 +64,53 @@ namespace ChatClientSignal.Servicios
             });
 
 
-            _proxy.On("onNewUserConnected", (String id,String nombre) =>
+            _proxy.On("onNewUserConnected", (String id, String nombre) =>
             {
                 var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
-                viewModel.Usuarios.Add(new Usuario(){Id=id,Nombre = nombre});
+                ExecuteOnUIThread(() =>
+                {
+                    viewModel.Usuarios.Add(new Usuario() {Id = id, Nombre = nombre});
+
+                });
+
             });
 
             _proxy.On("mensaje", (String usuario, String mensaje) =>
             {
                 var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
-                viewModel.Mensajes.Add(new Mensaje() { Usuario = usuario,Contenido = mensaje});
+                ExecuteOnUIThread(() =>
+                {
+
+                    viewModel.Mensajes.Add(new Mensaje() {Usuario = usuario, Contenido = mensaje});
+                });
+
             });
 
             _proxy.On("usuarioDesconectado", (String id, String nombre) =>
             {
                 var viewModel = ServiceLocator.Resolve<ConversacionesViewModel>();
 
-                var u = viewModel.Usuarios.FirstOrDefault(o => o.Id == id);
-                if (u != null)
-                {
-                    viewModel.Usuarios.Remove(u);
-                    viewModel.Mensajes.Add(new Mensaje() {Usuario = nombre, 
-                        Contenido = "Se ha desconectado"});
-                }
 
-            });
+                ExecuteOnUIThread(() =>
+                {
+
+                    var u = viewModel.Usuarios.FirstOrDefault(o => o.Id == id);
+                    if (u != null)
+                    {
+                        viewModel.Usuarios.Remove(u);
+                        viewModel.Mensajes.Add(new Mensaje()
+                        {
+                            Usuario = nombre,
+                            Contenido = "Se ha desconectado"
+                        });
+                    }
+
+
+                });
+              
+            }); 
             await _conexion.Start();
-            var a = "";
+               
         }
 
         public void Conectar(string nombre)
@@ -99,6 +131,12 @@ namespace ChatClientSignal.Servicios
         public void EnviarMensajePrivado(string destino, string mensaje)
         {
             _proxy.Invoke("EnviarMensajePrivado", destino, mensaje);
+        }
+
+
+        public static IAsyncAction ExecuteOnUIThread(Windows.UI.Core.DispatchedHandler action)
+        {
+            return Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, action);
         }
     }
 }

@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    DataContext="{Binding InicioViewModel}"
     >
 
     <Grid 
@@ -32,7 +31,7 @@
                        FontFamily="Arial Black" FontSize="24" FontWeight="Bold" 
                        HorizontalAlignment="Center"/>
            <TextBox Grid.Column="0" Grid.Row="1" Foreground="#FFFF1111"
-                    Text="{Binding MiUsuario,Mode=OneWay}"
+                    Text="{Binding MiUsuario,Mode=TwoWay}"
                     />
            <Button Grid.Column="1" Grid.Row="1" Content="Entrar" VerticalAlignment="Bottom" Click="Button_Click"/>
         </Grid>

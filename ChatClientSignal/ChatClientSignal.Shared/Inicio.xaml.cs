@@ -37,6 +37,10 @@ namespace ChatClientSignal
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             InicioViewModel.Conectar();
+//#if WINDOWS_APP
+
+            this.Frame.Navigate(typeof (MainPage));
+//#endif
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation;
@@ -48,7 +49,7 @@ namespace ChatClientSignal
         /// search results, and so forth.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -101,12 +102,9 @@ namespace ChatClientSignal
 
 
 
+              await  Iniciar();
 
-
-                ServiceLocator.Register<IChatService>(()=>new ServicioChatImpl());
-                ServiceLocator.Register<InicioViewModel>();
-                ServiceLocator.Register<ConversacionesViewModel>();
-
+            
 
                 if (!rootFrame.Navigate(typeof(Inicio), e.Arguments))
                 {
@@ -145,6 +143,30 @@ namespace ChatClientSignal
 
             // TODO: Save application state and stop any background activity
             deferral.Complete();
+        }
+
+        private async Task Iniciar()
+        {
+          
+                await ExecuteOnUIThread(() =>
+                {
+                    ServiceLocator.Register<IChatService>(() => new ServicioChatImpl());
+                    ServiceLocator.Register<InicioViewModel>();
+                    ServiceLocator.Register<ConversacionesViewModel>();
+
+                });
+
+
+                // do something with wb1 here
+             
+        }
+
+        public static IAsyncAction 
+            ExecuteOnUIThread(Windows.UI.Core.DispatchedHandler action)
+        {
+            return Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.
+                Dispatcher.
+                RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, action);
         }
     }
 }
